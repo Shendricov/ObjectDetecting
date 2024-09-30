@@ -9,7 +9,7 @@ import UIKit
 
 class ViewController: UIViewController {
 
-    private let start = NetworkManager()
+    private let start = NetworkManager(session: URLSession.shared)
     
     override func viewDidLoad() {
         super.viewDidLoad()
