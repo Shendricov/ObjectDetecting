@@ -31,8 +31,25 @@ class NetworkManager {
             }
         }
         
-        guard let resurlURL = componentsURL.url else { throw URLError.issueURL("URL not constructed file name \(#file), line \(#line)")}
+        guard let resurlURL = componentsURL.url else { throw URLError.issueURL("URL not constructed, line \(#line)")}
         return resurlURL
+    }
+    
+    private func createRequestBody(imageData: Data, boundary: String) -> Data {
+        var body: Data = Data()
+        let lineBreak = "\r\n"
+        
+        body.append(Data("--\(bounrary)\(lineBreak)".utf8))
+        body.append("Content-Disposition: form-data; name=\"providers\"\(lineBreak + lineBreak)".data(using: .utf8)!)
+        body.append("google,amazon\(lineBreak)".data(using: .utf8)!)
+        body.append("--\(boundary)\(lineBreak)".data(using: .utf8)!)
+        body.append("Content-Disposition: form-data; name=\"file\"; filename=\"image.jpg\"\(lineBreak)".data(using: .utf8)!)
+//        body.append(Data("Content-Type: \"content-type header\"\(lineBreak)".utf8))
+        body.append("Content-Type: image/jpg\(lineBreak + lineBreak)".data(using: .utf8)!)
+        body.append(imageData)
+        body.append(Data("\(lineBreak)--\(bounrary)--\(lineBreak)".utf8))
+
+        return body
     }
     
     func getRequest(imageData: Data) {
@@ -60,28 +77,18 @@ class NetworkManager {
                     }
                     DispatchQueue.main.async {
                         print(String(decoding: data, as: UTF8.self))
+                        guard let decodableFile = try? JSONDecoder().decode(DetectObjectDecoder.self
+                                                                   , from: data) else {
+                            print("***** line: \(#line) issue decoding.")
+                            return
+                        }
+                        print("***********************************************")
+                        print(decodableFile)
                     }
             }.resume()
         }
         
         
-    }
-    
-    private func createRequestBody(imageData: Data, boundary: String) -> Data {
-        var body: Data = Data()
-        let lineBreak = "\r\n"
-        
-        body.append(Data("--\(bounrary)\(lineBreak)".utf8))
-        body.append("Content-Disposition: form-data; name=\"providers\"\(lineBreak + lineBreak)".data(using: .utf8)!)
-        body.append("google,amazon\(lineBreak)".data(using: .utf8)!)
-        body.append("--\(boundary)\(lineBreak)".data(using: .utf8)!)
-        body.append("Content-Disposition: form-data; name=\"file\"; filename=\"image.jpg\"\(lineBreak)".data(using: .utf8)!)
-//        body.append(Data("Content-Type: \"content-type header\"\(lineBreak)".utf8))
-        body.append("Content-Type: image/jpg\(lineBreak + lineBreak)".data(using: .utf8)!)
-        body.append(imageData)
-        body.append(Data("\(lineBreak)--\(bounrary)--\(lineBreak)".utf8))
-
-        return body
     }
     
 }
