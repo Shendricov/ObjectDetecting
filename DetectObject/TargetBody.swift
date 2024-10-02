@@ -44,18 +44,18 @@ struct TargetBody: Decodable {
             let label: String
             let confidence: Double
             let xMin: Double?
-            let minY: Double?
-            let maxX: Double?
-            let maxY: Double?
+            let yMin: Double?
+            let xMax: Double?
+            let yMax: Double?
 
             
             enum CodingKeys: String, CodingKey {
                 case label
                 case confidence
                 case xMin = "x_min"
-                case minY = "y_min"
-                case maxX = "x_max"
-                case maxY = "y_max"
+                case yMin = "y_min"
+                case xMax = "x_max"
+                case yMax = "y_max"
             }
             
             init(from decoder: any Decoder) throws {
@@ -63,9 +63,9 @@ struct TargetBody: Decodable {
                 self.label = try container.decode(String.self, forKey: CodingKeys.label)
                 self.confidence = try container.decode(Double.self, forKey: CodingKeys.confidence)
                 self.xMin = try container.decode(Double?.self, forKey: CodingKeys.xMin)
-                self.minY = try container.decode(Double?.self, forKey: CodingKeys.minY)
-                self.maxX = try container.decode(Double?.self, forKey: CodingKeys.maxX)
-                self.maxY = try container.decode(Double?.self, forKey: CodingKeys.maxY)
+                self.yMin = try container.decode(Double?.self, forKey: CodingKeys.yMin)
+                self.xMax = try container.decode(Double?.self, forKey: CodingKeys.xMax)
+                self.yMax = try container.decode(Double?.self, forKey: CodingKeys.yMax)
             }
         }
     }

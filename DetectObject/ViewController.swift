@@ -29,7 +29,7 @@ class ViewController: UIViewController {
         print(object?.google.items.first?.maxX)
         print(object?.google.items.first?.maxY)
         print(object?.google.items.first?.minY)
-        print(object?.google.items.first?.)
+        print(object?.google.items.first?.xMin)
         
     }
 
