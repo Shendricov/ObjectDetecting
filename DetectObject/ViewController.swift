@@ -24,9 +24,12 @@ class ViewController: UIViewController {
 
     func testFunction() {
         guard let jsonData = self.dataResponse.data(using: .utf8) else { return }
-        let object = try? JSONDecoder().decode(DetectObjectDecoder.self, from: jsonData)
-        print(object?.amazon.cost)
-        print(object?.google.cost)
+        let object = try? JSONDecoder().decode(TargetBody.self, from: jsonData)
+//        print(object?.amazon.items)
+        print(object?.google.items.first?.maxX)
+        print(object?.google.items.first?.maxY)
+        print(object?.google.items.first?.minY)
+        print(object?.google.items.first?.)
         
     }
 

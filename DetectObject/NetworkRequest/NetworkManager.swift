@@ -77,7 +77,7 @@ class NetworkManager {
                     }
                     DispatchQueue.main.async {
                         print(String(decoding: data, as: UTF8.self))
-                        guard let decodableFile = try? JSONDecoder().decode(DetectObjectDecoder.self
+                        guard let decodableFile = try? JSONDecoder().decode(TargetBody.self
                                                                    , from: data) else {
                             print("***** line: \(#line) issue decoding.")
                             return
