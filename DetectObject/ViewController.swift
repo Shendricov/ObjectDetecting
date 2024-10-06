@@ -11,18 +11,37 @@ class ViewController: UIViewController {
 
     let network = NetworkManager(session: URLSession.shared)
     @IBOutlet weak var imageView: UIImageView!
-    
+    private var image: UIImage?
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
 //        if let imageData = UIImage(named: "image")?.jpegData(compressionQuality: 1) {
 //            network.getRequest(imageData: imageData)
 //        }
-        testFunction()
         
+        setupConstraints()
+        macingObjectsArr()
     }
 
-    func testFunction() {
+    func setupConstraints() {
+        
+        guard let imageForWork = UIImage(named: "image") else {
+            print ("image not exist, issue in line \(#line)")
+            return
+        }
+        self.image = imageForWork
+        
+        let imageSize: CGSize = image!.size
+        self.imageView.translatesAutoresizingMaskIntoConstraints = false
+        self.imageView.contentMode = .scaleAspectFit
+        self.imageView.backgroundColor = .red
+        self.imageView.frame = CGRect(x: 0, y: 40, width: imageSize.width, height: imageSize.height)
+            
+    }
+    
+    
+    func macingObjectsArr() {
         guard let jsonData = self.dataResponse.data(using: .utf8) else { return }
         let object = try? JSONDecoder().decode(TargetBody.self, from: jsonData)
         
@@ -41,21 +60,14 @@ class ViewController: UIViewController {
             return
         }
         imageView.contentMode = .scaleAspectFit
-        let imageSize = image.size
-        print("image size is \(imageSize)")
         
-//        TODO: start
         let objects = collectObjets(with: [amazone,google,edenAI], in: image)
         objects.forEach { print("\($0.key) with confident \($0.value.confidence)" ) }
         selectObject(with: objects["Elephant"])
         
-        
-        let viewBounds = imageView.bounds
-        print("view size is \(imageView.bounds.size)")
-        imageView.image = image
-
     }
-
+    
+    
     private func collectObjets(with providers: [Provider], in image: UIImage) -> [String: ObjectInfoStruct] {
         var fullObjects: Dictionary<String, ObjectInfoStruct> = [:]
         for provider in providers {

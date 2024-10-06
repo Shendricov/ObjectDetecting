@@ -16,21 +16,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" semanticContentAttribute="spatial" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Ol2-do-cws">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" semanticContentAttribute="spatial" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ol2-do-cws">
                                 <rect key="frame" x="0.0" y="59" width="393" height="300"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" systemColor="systemBlueColor"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="300" id="kDy-mW-eIR"/>
-                                </constraints>
                             </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <constraints>
-                            <constraint firstItem="Ol2-do-cws" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="TxL-eC-Zx9"/>
-                            <constraint firstItem="Ol2-do-cws" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="ew9-t7-IIR"/>
-                            <constraint firstItem="Ol2-do-cws" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="sd0-Yt-vTJ"/>
-                        </constraints>
                     </view>
                     <connections>
                         <outlet property="imageView" destination="Ol2-do-cws" id="aAS-7M-ymI"/>
@@ -46,7 +39,7 @@
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemBlueColor">
-            <color red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>
