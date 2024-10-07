@@ -14,7 +14,8 @@ enum URLError: Error{
 class NetworkManager {
     
     private let session: URLSession
-    private let bounrary = "Boundary"
+//    thise shet you can not repit
+    private let bounrary = UUID().uuidString
     
     init(session: URLSession) {
         self.session = session

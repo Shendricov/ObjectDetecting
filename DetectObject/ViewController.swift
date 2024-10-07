@@ -26,18 +26,38 @@ class ViewController: UIViewController {
 
     func setupConstraints() {
         
-        guard let imageForWork = UIImage(named: "image") else {
-            print ("image not exist, issue in line \(#line)")
-            return
-        }
-        self.image = imageForWork
-        
-        let imageSize: CGSize = image!.size
-        self.imageView.translatesAutoresizingMaskIntoConstraints = false
-        self.imageView.contentMode = .scaleAspectFit
-        self.imageView.backgroundColor = .red
-        self.imageView.frame = CGRect(x: 0, y: 40, width: imageSize.width, height: imageSize.height)
+            guard let imageForWork = UIImage(named: "image") else {
+                print ("image not exist, issue in line \(#line)")
+                return
+            }
+            self.image = imageForWork
             
+            let imageSize: CGSize = imageForWork.size
+        print("IMAGE \(imageSize)")
+            self.imageView.translatesAutoresizingMaskIntoConstraints = false
+            self.imageView.contentMode = .scaleAspectFit
+            self.imageView.backgroundColor = .red
+            self.imageView.image = imageForWork
+        self.imageView.clipsToBounds = false
+       
+        let correctHeight: Double = {
+            let screenBounds = UIScreen.main.bounds
+            let width = screenBounds.width - imageSize.width
+            let aspectRatio = imageSize.height / imageSize.width
+            let result = width * aspectRatio
+            return Double(result)
+        }()
+        
+        NSLayoutConstraint.activate([
+            self.imageView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 0),
+            self.imageView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: 0),
+            self.imageView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 10),
+            self.imageView.heightAnchor.constraint(equalToConstant: imageSize.height + correctHeight)
+        ])
+                    
+        
+               
+
     }
     
     
@@ -59,12 +79,10 @@ class ViewController: UIViewController {
             print("image not exist \(#line)")
             return
         }
-        imageView.contentMode = .scaleAspectFit
         
         let objects = collectObjets(with: [amazone,google,edenAI], in: image)
         objects.forEach { print("\($0.key) with confident \($0.value.confidence)" ) }
-        selectObject(with: objects["Elephant"])
-        
+        selectObject(with: objects["Cow"])
     }
     
     
@@ -93,13 +111,13 @@ class ViewController: UIViewController {
         self.imageView.layer.addSublayer(layer)
     }
     
-    private func culculateRect(for object: Item, in image: UIImage) -> CGRect {
-        let viewBounds = imageView.bounds
-        let imageSize = image.size
-        let x: Double = Double(viewBounds.width) * object.xMin!
-        let y: Double = Double(viewBounds.height) * object.yMin!
-        let width: Double = Double(viewBounds.maxX) * object.xMax! - x
-        let height: Double = Double(viewBounds.maxY) * object.yMax! - y - ((viewBounds.height - imageSize.height)/2)
+    private func culculateRect(for item: Item, in image: UIImage) -> CGRect {
+        let coreSize = image.size
+        let ratio = imageView.bounds.width / image.size.width
+        let x: Double = (Double(coreSize.width) * item.xMin!) * ratio
+        let y: Double = (Double(coreSize.height) * item.yMin!) * ratio
+        let width: Double = (Double(coreSize.width) * item.xMax! - x) * ratio
+        let height: Double = (Double(coreSize.height) * item.yMax! - y) * ratio
         return CGRect(x: x, y: y, width: width, height: height)
     }
     
